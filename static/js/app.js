@@ -8,6 +8,7 @@ let weatherData = null;
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
     setupEventListeners();
+    tryUserLocation();
 });
 
 // Initialize Leaflet map
@@ -23,6 +24,40 @@ function initMap() {
     map.on('click', onMapClick);
 }
 
+// Try to get user's location
+function tryUserLocation() {
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                
+                // Center map on user's location
+                map.setView([lat, lng], 10);
+                
+                // Add marker
+                if (currentMarker) {
+                    map.removeLayer(currentMarker);
+                }
+                currentMarker = L.marker([lat, lng]).addTo(map);
+                
+                // Store selected location
+                selectedLocation = { lat, lng };
+                
+                // Fetch weather data
+                fetchWeather(lat, lng);
+                
+                // Enable generate button
+                document.getElementById('generate-btn').disabled = false;
+            },
+            (error) => {
+                console.log('Geolocation not available or denied:', error);
+                // Continue with default location
+            }
+        );
+    }
+}
+
 // Setup event listeners
 function setupEventListeners() {
     document.getElementById('search-btn').addEventListener('click', searchLocation);
@@ -32,6 +67,29 @@ function setupEventListeners() {
         }
     });
     document.getElementById('generate-btn').addEventListener('click', generateDiorama);
+    
+    // Settings modal listeners
+    document.getElementById('settings-toggle-btn').addEventListener('click', openSettingsModal);
+    document.getElementById('close-settings').addEventListener('click', closeSettingsModal);
+    
+    // Close modal when clicking outside
+    document.getElementById('settings-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'settings-modal') {
+            closeSettingsModal();
+        }
+    });
+}
+
+// Open settings modal
+function openSettingsModal() {
+    const modal = document.getElementById('settings-modal');
+    modal.classList.add('show');
+}
+
+// Close settings modal
+function closeSettingsModal() {
+    const modal = document.getElementById('settings-modal');
+    modal.classList.remove('show');
 }
 
 // Handle map click
