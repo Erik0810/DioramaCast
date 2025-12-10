@@ -42,7 +42,7 @@ async function onMapClick(e) {
 function tryUserLocation() {
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
-            (position) => {
+            async (position) => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
                 
@@ -59,7 +59,7 @@ function tryUserLocation() {
                 selectedLocation = { lat, lng };
                 
                 // Fetch weather data
-                fetchWeather(lat, lng);
+                await fetchWeather(lat, lng);
                 
                 // Enable generate button
                 document.getElementById('generate-btn').disabled = false;
