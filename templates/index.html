@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DioramaCast - Weather Diorama Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-mountain"></i> DioramaCast</h1>
+        <p>Generate Beautiful Dioramas Based on Real-World Weather</p>
+    </header>
+
+    <main class="container">
+        <!-- Top Left: World Map with Search -->
+        <div class="quadrant top-left">
+            <div class="search-container">
+                <input type="text" id="location-search" placeholder="Search for a location..." />
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div id="map"></div>
+        </div>
+
+        <!-- Bottom Left: Weather Display -->
+        <div class="quadrant bottom-left">
+            <h2><i class="fas fa-cloud-sun"></i> Weather Information</h2>
+            <div id="weather-display">
+                <div class="placeholder-text">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Select a location on the map to view weather</p>
+                </div>
+                <div id="weather-content" style="display: none;">
+                    <div class="weather-header">
+                        <h3 id="weather-location">--</h3>
+                        <img id="weather-icon" src="" alt="Weather icon" />
+                    </div>
+                    <div class="weather-main">
+                        <div class="temperature">
+                            <span id="weather-temp">--</span>°C
+                        </div>
+                        <div class="weather-desc" id="weather-description">--</div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <i class="fas fa-temperature-high"></i>
+                            <span>Feels Like: <strong id="weather-feels">--</strong>°C</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Humidity: <strong id="weather-humidity">--</strong>%</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-wind"></i>
+                            <span>Wind: <strong id="weather-wind">--</strong> m/s</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <span>Pressure: <strong id="weather-pressure">--</strong> hPa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Right: Settings and Generate Button -->
+        <div class="quadrant top-right">
+            <h2><i class="fas fa-cog"></i> Diorama Settings</h2>
+            <div class="settings-container">
+                <div class="setting-group">
+                    <label for="style-select">Art Style:</label>
+                    <select id="style-select" class="setting-input">
+                        <option value="">Default</option>
+                        <option value="realistic">Realistic</option>
+                        <option value="artistic">Artistic</option>
+                        <option value="miniature">Miniature Model</option>
+                        <option value="cinematic">Cinematic</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="time-select">Time of Day:</label>
+                    <select id="time-select" class="setting-input">
+                        <option value="">Auto (from weather)</option>
+                        <option value="sunrise">Sunrise</option>
+                        <option value="midday">Midday</option>
+                        <option value="sunset">Sunset</option>
+                        <option value="night">Night</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="season-select">Season:</label>
+                    <select id="season-select" class="setting-input">
+                        <option value="">Auto (from location)</option>
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                        <option value="autumn">Autumn</option>
+                        <option value="winter">Winter</option>
+                    </select>
+                </div>
+                
+                <button id="generate-btn" class="generate-button" disabled>
+                    <i class="fas fa-magic"></i> Generate Diorama
+                </button>
+                
+                <div id="generation-status" class="status-message"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Right: Generated Image Display -->
+        <div class="quadrant bottom-right">
+            <h2><i class="fas fa-image"></i> Generated Diorama</h2>
+            <div id="image-display">
+                <div class="placeholder-text">
+                    <i class="fas fa-magic"></i>
+                    <p>Select a location and click Generate to create your diorama</p>
+                </div>
+                <div id="image-content" style="display: none;">
+                    <img id="generated-image" src="" alt="Generated diorama" />
+                    <div class="image-info">
+                        <p id="image-prompt"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

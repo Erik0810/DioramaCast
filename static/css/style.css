@@ -1,0 +1,418 @@
+/* Modern Cream White and Dark Blue Theme */
+:root {
+    --dark-blue: #1a2332;
+    --medium-blue: #2d3e50;
+    --accent-blue: #3a5a7a;
+    --light-blue: #5a7a9a;
+    --cream-white: #f8f6f0;
+    --cream-light: #fdfcf8;
+    --cream-dark: #e8e6e0;
+    --shadow: rgba(26, 35, 50, 0.1);
+    --shadow-strong: rgba(26, 35, 50, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--cream-white) 0%, var(--cream-light) 100%);
+    color: var(--dark-blue);
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+    color: var(--cream-white);
+    padding: 2rem 2rem 1.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px var(--shadow-strong);
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+header h1 i {
+    margin-right: 1rem;
+    color: var(--cream-white);
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1800px;
+    margin: 0 auto;
+    height: calc(100vh - 150px);
+}
+
+.quadrant {
+    background: var(--cream-light);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px var(--shadow);
+    border: 2px solid var(--cream-dark);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quadrant:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-strong);
+}
+
+.quadrant h2 {
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-blue);
+}
+
+.quadrant h2 i {
+    margin-right: 0.5rem;
+    color: var(--accent-blue);
+}
+
+/* Top Left - Map */
+.top-left {
+    position: relative;
+}
+
+.search-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#location-search {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--cream-dark);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    color: var(--dark-blue);
+    transition: border-color 0.3s ease;
+}
+
+#location-search:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+#search-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+#search-btn:hover {
+    background: var(--medium-blue);
+}
+
+#map {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    min-height: 300px;
+}
+
+/* Bottom Left - Weather */
+.bottom-left {
+    overflow-y: auto;
+}
+
+#weather-display {
+    flex: 1;
+}
+
+.placeholder-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--light-blue);
+    text-align: center;
+}
+
+.placeholder-text i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.placeholder-text p {
+    font-size: 1.1rem;
+}
+
+#weather-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.weather-header h3 {
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+}
+
+#weather-icon {
+    width: 80px;
+    height: 80px;
+}
+
+.weather-main {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.temperature {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+}
+
+.weather-desc {
+    font-size: 1.3rem;
+    color: var(--medium-blue);
+    margin-top: 0.5rem;
+    text-transform: capitalize;
+}
+
+.weather-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.detail-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-item i {
+    color: var(--accent-blue);
+    font-size: 1.2rem;
+}
+
+.detail-item span {
+    font-size: 0.9rem;
+    color: var(--medium-blue);
+}
+
+/* Top Right - Settings */
+.top-right {
+    overflow-y: auto;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.setting-group label {
+    font-weight: 600;
+    color: var(--dark-blue);
+    font-size: 1rem;
+}
+
+.setting-input {
+    padding: 0.75rem;
+    border: 2px solid var(--cream-dark);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    color: var(--dark-blue);
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.setting-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.generate-button {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--medium-blue) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px var(--shadow-strong);
+}
+
+.generate-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-strong);
+}
+
+.generate-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.generate-button i {
+    margin-right: 0.5rem;
+}
+
+.status-message {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+}
+
+.status-message.show {
+    display: block;
+}
+
+.status-message.loading {
+    background: rgba(58, 90, 122, 0.1);
+    color: var(--accent-blue);
+}
+
+.status-message.success {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+}
+
+.status-message.error {
+    background: rgba(231, 76, 60, 0.1);
+    color: #c0392b;
+}
+
+/* Bottom Right - Image Display */
+.bottom-right {
+    overflow-y: auto;
+}
+
+#image-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#image-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#generated-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-strong);
+    background: white;
+}
+
+.image-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.image-info p {
+    color: var(--medium-blue);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+    
+    .quadrant {
+        min-height: 400px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Scrollbar Styling */
+.bottom-left::-webkit-scrollbar,
+.top-right::-webkit-scrollbar,
+.bottom-right::-webkit-scrollbar {
+    width: 8px;
+}
+
+.bottom-left::-webkit-scrollbar-track,
+.top-right::-webkit-scrollbar-track,
+.bottom-right::-webkit-scrollbar-track {
+    background: var(--cream-dark);
+    border-radius: 4px;
+}
+
+.bottom-left::-webkit-scrollbar-thumb,
+.top-right::-webkit-scrollbar-thumb,
+.bottom-right::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 4px;
+}
+
+.bottom-left::-webkit-scrollbar-thumb:hover,
+.top-right::-webkit-scrollbar-thumb:hover,
+.bottom-right::-webkit-scrollbar-thumb:hover {
+    background: var(--medium-blue);
+}
