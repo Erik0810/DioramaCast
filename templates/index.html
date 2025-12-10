@@ -24,8 +24,21 @@
             <div id="map"></div>
         </div>
 
-        <!-- Bottom Left: Weather Display -->
+        <!-- Bottom Left: Settings and Generate Button -->
         <div class="quadrant bottom-left">
+            <div class="generate-container">
+                <button id="generate-btn" class="generate-button" disabled>
+                    <i class="fas fa-magic"></i> Generate Diorama
+                </button>
+                <button id="settings-toggle-btn" class="settings-toggle-button">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+            <div id="generation-status" class="status-message"></div>
+        </div>
+
+        <!-- Top Right: Weather Display -->
+        <div class="quadrant top-right">
             <h2><i class="fas fa-cloud-sun"></i> Weather Information</h2>
             <div id="weather-display">
                 <div class="placeholder-text">
@@ -65,10 +78,34 @@
             </div>
         </div>
 
-        <!-- Top Right: Settings and Generate Button -->
-        <div class="quadrant top-right">
-            <h2><i class="fas fa-cog"></i> Diorama Settings</h2>
-            <div class="settings-container">
+        <!-- Bottom Right: Generated Image Display -->
+        <div class="quadrant bottom-right">
+            <h2><i class="fas fa-image"></i> Generated Diorama</h2>
+            <div id="image-display">
+                <div class="placeholder-text">
+                    <i class="fas fa-magic"></i>
+                    <p>Select a location and click Generate to create your diorama</p>
+                </div>
+                <div id="image-content" style="display: none;">
+                    <img id="generated-image" src="" alt="Generated diorama" />
+                    <div class="image-info">
+                        <p id="image-prompt"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Settings Popup Modal -->
+    <div id="settings-modal" class="settings-modal">
+        <div class="settings-modal-content">
+            <div class="settings-modal-header">
+                <h2><i class="fas fa-cog"></i> Diorama Settings</h2>
+                <button id="close-settings" class="close-settings-button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="settings-modal-body">
                 <div class="setting-group">
                     <label for="style-select">Art Style:</label>
                     <select id="style-select" class="setting-input">
@@ -101,32 +138,9 @@
                         <option value="winter">Winter</option>
                     </select>
                 </div>
-                
-                <button id="generate-btn" class="generate-button" disabled>
-                    <i class="fas fa-magic"></i> Generate Diorama
-                </button>
-                
-                <div id="generation-status" class="status-message"></div>
             </div>
         </div>
-
-        <!-- Bottom Right: Generated Image Display -->
-        <div class="quadrant bottom-right">
-            <h2><i class="fas fa-image"></i> Generated Diorama</h2>
-            <div id="image-display">
-                <div class="placeholder-text">
-                    <i class="fas fa-magic"></i>
-                    <p>Select a location and click Generate to create your diorama</p>
-                </div>
-                <div id="image-content" style="display: none;">
-                    <img id="generated-image" src="" alt="Generated diorama" />
-                    <div class="image-info">
-                        <p id="image-prompt"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

@@ -140,9 +140,194 @@ header p {
     min-height: 300px;
 }
 
-/* Bottom Left - Weather */
+/* Bottom Left - Generate Button and Settings */
 .bottom-left {
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.generate-container {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.generate-button {
+    flex: 1;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--medium-blue) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px var(--shadow-strong);
+}
+
+.generate-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-strong);
+}
+
+.generate-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.generate-button i {
+    margin-right: 0.5rem;
+}
+
+.settings-toggle-button {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-toggle-button:hover {
+    background: var(--medium-blue);
+    transform: translateY(-2px);
+}
+
+/* Settings Modal */
+.settings-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 35, 50, 0.5);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.settings-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.settings-modal-content {
+    background: var(--cream-light);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px var(--shadow-strong);
+    border: 2px solid var(--cream-dark);
+    width: 90%;
+    max-width: 500px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.settings-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-blue);
+}
+
+.settings-modal-header h2 {
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.settings-modal-header h2 i {
+    margin-right: 0.5rem;
+    color: var(--accent-blue);
+}
+
+.close-settings-button {
+    background: transparent;
+    border: none;
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.close-settings-button:hover {
+    background: var(--cream-dark);
+}
+
+.settings-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.status-message {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+    max-width: 500px;
+    width: 100%;
+}
+
+.status-message.show {
+    display: block;
+}
+
+.status-message.loading {
+    background: rgba(58, 90, 122, 0.1);
+    color: var(--accent-blue);
+}
+
+.status-message.success {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+}
+
+.status-message.error {
+    background: rgba(231, 76, 60, 0.1);
+    color: #c0392b;
+}
+
+/* Top Right - Weather Display */
+.top-right {
 }
 
 #weather-display {
@@ -238,17 +423,6 @@ header p {
     color: var(--medium-blue);
 }
 
-/* Top Right - Settings */
-.top-right {
-    overflow-y: auto;
-}
-
-.settings-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
 .setting-group {
     display: flex;
     flex-direction: column;
@@ -277,64 +451,8 @@ header p {
     border-color: var(--accent-blue);
 }
 
-.generate-button {
-    margin-top: 1rem;
-    padding: 1.25rem;
-    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--medium-blue) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px var(--shadow-strong);
-}
-
-.generate-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px var(--shadow-strong);
-}
-
-.generate-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.generate-button i {
-    margin-right: 0.5rem;
-}
-
-.status-message {
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 500;
-    display: none;
-}
-
-.status-message.show {
-    display: block;
-}
-
-.status-message.loading {
-    background: rgba(58, 90, 122, 0.1);
-    color: var(--accent-blue);
-}
-
-.status-message.success {
-    background: rgba(46, 204, 113, 0.1);
-    color: #27ae60;
-}
-
-.status-message.error {
-    background: rgba(231, 76, 60, 0.1);
-    color: #c0392b;
-}
-
 /* Bottom Right - Image Display */
 .bottom-right {
-    overflow-y: auto;
 }
 
 #image-display {
@@ -388,31 +506,4 @@ header p {
     header h1 {
         font-size: 2rem;
     }
-}
-
-/* Scrollbar Styling */
-.bottom-left::-webkit-scrollbar,
-.top-right::-webkit-scrollbar,
-.bottom-right::-webkit-scrollbar {
-    width: 8px;
-}
-
-.bottom-left::-webkit-scrollbar-track,
-.top-right::-webkit-scrollbar-track,
-.bottom-right::-webkit-scrollbar-track {
-    background: var(--cream-dark);
-    border-radius: 4px;
-}
-
-.bottom-left::-webkit-scrollbar-thumb,
-.top-right::-webkit-scrollbar-thumb,
-.bottom-right::-webkit-scrollbar-thumb {
-    background: var(--accent-blue);
-    border-radius: 4px;
-}
-
-.bottom-left::-webkit-scrollbar-thumb:hover,
-.top-right::-webkit-scrollbar-thumb:hover,
-.bottom-right::-webkit-scrollbar-thumb:hover {
-    background: var(--medium-blue);
 }
