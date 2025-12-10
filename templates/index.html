@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DioramaCast - Weather Diorama Generator</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -45,7 +46,6 @@
 
             <!-- Right Side: Weather Display -->
             <div class="quadrant weather-quadrant">
-                <h2><i class="fas fa-cloud-sun"></i> Weather Information</h2>
                 <div id="weather-display">
                     <div class="placeholder-text">
                         <i class="fas fa-map-marker-alt"></i>
