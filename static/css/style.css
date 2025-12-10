@@ -121,7 +121,6 @@ header p {
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 450px;
     height: 450px;
 }
 
@@ -377,7 +376,6 @@ header p {
 .weather-quadrant {
     display: flex;
     flex-direction: column;
-    min-height: 450px;
     height: 450px;
 }
 
@@ -576,13 +574,13 @@ header p {
         grid-template-columns: 1fr;
     }
     
-    .quadrant {
-        min-height: 350px;
-    }
-    
     .map-quadrant,
     .weather-quadrant {
-        height: auto;
+        height: 400px;
+    }
+    
+    .quadrant {
+        min-height: 350px;
     }
     
     header h1 {
