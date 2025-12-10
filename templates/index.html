@@ -15,9 +15,9 @@
     </header>
 
     <main class="container">
-        <!-- Left Column: Map and Generate Button -->
-        <div class="left-column">
-            <!-- World Map with Search -->
+        <!-- Top Row: Inputs (Map + Weather) -->
+        <div class="top-row">
+            <!-- Left Side: World Map with Search -->
             <div class="quadrant map-quadrant">
                 <div class="search-container">
                     <input type="text" id="location-search" placeholder="Search for a location..." />
@@ -26,23 +26,7 @@
                 <div id="map"></div>
             </div>
 
-            <!-- Generate Button (no card styling) -->
-            <div class="generate-section">
-                <div class="generate-container">
-                    <button id="generate-btn" class="generate-button" disabled>
-                        <i class="fas fa-magic"></i> Generate Diorama
-                    </button>
-                    <button id="settings-toggle-btn" class="settings-toggle-button">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                </div>
-                <div id="generation-status" class="status-message"></div>
-            </div>
-        </div>
-
-        <!-- Right Column: Weather and Generated Image -->
-        <div class="right-column">
-            <!-- Weather Display -->
+            <!-- Right Side: Weather Display -->
             <div class="quadrant weather-quadrant">
                 <h2><i class="fas fa-cloud-sun"></i> Weather Information</h2>
                 <div id="weather-display">
@@ -82,8 +66,25 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Generated Image Display -->
+        <!-- Middle Row: Generate Button (centered) -->
+        <div class="middle-row">
+            <div class="generate-section">
+                <div class="generate-container">
+                    <button id="generate-btn" class="generate-button" disabled>
+                        <i class="fas fa-magic"></i> Generate Diorama
+                    </button>
+                    <button id="settings-toggle-btn" class="settings-toggle-button">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                <div id="generation-status" class="status-message"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Generated Diorama (full width) -->
+        <div class="bottom-row">
             <div class="quadrant image-quadrant">
                 <h2><i class="fas fa-image"></i> Generated Diorama</h2>
                 <div id="image-display">
