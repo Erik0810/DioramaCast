@@ -21,7 +21,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     background: var(--cream-white);
     color: var(--text-primary);
     min-height: 100vh;
@@ -153,22 +153,22 @@ header p {
     border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* Bottom Left - Generate Button and Settings */
+/* Bottom Left - Generate Button and Settings (Minimal, No Card Styling) */
 .bottom-left {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 .bottom-left:hover {
-    transform: none;
-    box-shadow: none;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
 .generate-container {
