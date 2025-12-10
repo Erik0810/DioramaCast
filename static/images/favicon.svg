@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="#f5f5f7">
-  <!-- Mountain icon inspired by Font Awesome (fas fa-mountain)
-       Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com
-       License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
-  <path d="M560 160c-2 0-4 .4-6 1.2L384 252l-49-70c-2-2.8-5-4.4-8.6-4.6-3.6-.2-6.8 1.2-9.2 3.8L192 320l-85-121.1c-2.3-3.3-6.1-5.3-10.2-5.3-1.6 0-3.2 .3-4.8 1L8 251.7C3.2 254 0 259.1 0 264.6V448c0 17.7 14.3 32 32 32H608c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32H560zM48 261.2l72-36 94.5 134.4c4.5 6.4 13.6 7.9 20.4 3.4l121.5-81 50.5 72.1c4.5 6.5 13.7 8 20.5 3.4L544 293v155H48V261.2z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#f5f5f7">
+  <!-- Simple original mountain icon design for DioramaCast favicon -->
+  <path d="M32 8 L52 48 L12 48 Z" fill="#8b9dc3"/>
+  <path d="M20 28 L42 48 L12 48 Z" fill="#6b7da3"/>
+  <path d="M40 18 L58 48 L42 48 Z" fill="#a0b5d8"/>
 </svg>
