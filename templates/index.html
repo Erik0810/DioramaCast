@@ -149,6 +149,11 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Load modules in order: utilities first, then API modules, then main app -->
+    <script src="{{ url_for('static', filename='js/ui-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/weather-api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/image-api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/map-api.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
