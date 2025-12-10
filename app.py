@@ -62,25 +62,29 @@ def generate_image():
     temperature = data.get('temperature', 20)
     settings = data.get('settings', {})
     
-    # Create prompt for image generation
-    prompt = f"A miniature diorama scene of {location} with {weather} weather, temperature {temperature}°C"
+    # Get current date
+    current_date = datetime.now().strftime("%B %d, %Y")
     
-    # Add settings to prompt
-    if settings.get('style'):
-        prompt += f", {settings.get('style')} style"
-    if settings.get('time_of_day'):
-        prompt += f", {settings.get('time_of_day')}"
-    if settings.get('season'):
-        prompt += f", {settings.get('season')} season"
-    
-    prompt += ", highly detailed miniature model, realistic lighting, professional photography"
+    # Create prompt for image generation using the specified format
+    prompt = (
+        f'Present a clear, 45° top-down isometric miniature 3D cartoon scene of {location}, '
+        f'featuring its most iconic landmarks and architectural elements. '
+        f'Use soft, refined textures with realistic PBR materials and gentle, lifelike lighting and shadows. '
+        f'Integrate {weather} weather directly into the city environment to create an immersive atmospheric mood. '
+        f'Use a clean, minimalistic composition with a soft, solid-colored background. '
+        f'At the top-center, place the title "{location}" in large bold text, '
+        f'a prominent weather icon beneath it, then the date ({current_date}) (small text) '
+        f'and temperature ({temperature}°C) (medium text). '
+        f'All text must be centered with consistent spacing, and may subtly overlap the tops of the buildings. '
+        f'Square 1000x1000 dimension'
+    )
     
     # For now, return a placeholder response
     # You'll need to implement actual Nano Banana Pro API integration
     if not IMAGE_API_KEY:
         # Return a placeholder image URL for demo
         return jsonify({
-            'image_url': 'https://via.placeholder.com/500x500.png?text=Configure+API+Key',
+            'image_url': 'https://via.placeholder.com/1000x1000.png?text=Configure+API+Key',
             'prompt': prompt,
             'message': 'Image API key not configured. This is a placeholder.'
         })
@@ -89,7 +93,7 @@ def generate_image():
         # TODO: Implement actual Nano Banana Pro API call
         # This is a placeholder implementation
         return jsonify({
-            'image_url': 'https://via.placeholder.com/500x500.png?text=Image+Generated',
+            'image_url': 'https://via.placeholder.com/1000x1000.png?text=Image+Generated',
             'prompt': prompt,
             'message': 'Image generation successful'
         })
