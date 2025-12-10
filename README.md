@@ -112,6 +112,36 @@ DioramaCast/
 - **Styling**: Custom CSS with modern design
 - **Icons**: Font Awesome
 
+## GitHub Actions & CI/CD
+
+This project includes automated testing via GitHub Actions. The workflow will automatically run tests when you push changes or create pull requests.
+
+### Setting Up GitHub Secrets
+
+To use the automated tests with actual API keys, configure the following secrets in your GitHub repository:
+
+1. Go to your repository on GitHub
+2. Navigate to **Settings** → **Secrets and variables** → **Actions**
+3. Click **New repository secret**
+4. Add the following secrets:
+   - **OPENWEATHER_API_KEY**: Your OpenWeatherMap API key
+   - **NANABANA_API_KEY**: Your Nano Banana Pro API key
+
+The GitHub Actions workflow (`.github/workflows/test.yml`) will automatically use these secrets as environment variables during testing.
+
+### Manual Workflow Trigger
+
+You can manually trigger the test workflow:
+1. Go to the **Actions** tab in your GitHub repository
+2. Select the "Test DioramaCast Application" workflow
+3. Click **Run workflow**
+
+The workflow will:
+- Install dependencies
+- Run application tests
+- Test API endpoints
+- Verify environment variables are configured
+
 ## Customization
 
 ### Modifying the Theme
