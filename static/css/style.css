@@ -57,20 +57,32 @@ header p {
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
     padding: 2rem;
     max-width: 1800px;
     margin: 0 auto;
-    height: calc(100vh - 150px);
 }
 
-.left-column,
-.right-column {
-    display: flex;
-    flex-direction: column;
+/* Top Row: Two equal columns side-by-side */
+.top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
+}
+
+/* Middle Row: Centered button */
+.middle-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Bottom Row: Full width result */
+.bottom-row {
+    display: flex;
+    width: 100%;
 }
 
 .quadrant {
@@ -107,10 +119,9 @@ header p {
 /* Map Quadrant */
 .map-quadrant {
     position: relative;
-    flex: 0 1 auto;
-    height: calc(100vh - 350px);
-    min-height: 400px;
-    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    height: 450px;
 }
 
 .search-container {
@@ -167,7 +178,7 @@ header p {
 .generate-section {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: 1rem;
     background: transparent;
@@ -177,7 +188,7 @@ header p {
 .generate-container {
     display: flex;
     gap: 1rem;
-    width: 100%;
+    max-width: 500px;
 }
 
 .generate-button {
@@ -363,8 +374,9 @@ header p {
 
 /* Weather Quadrant */
 .weather-quadrant {
-    flex: 0 0 auto;
-    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    height: 450px;
 }
 
 #weather-display {
@@ -515,7 +527,8 @@ header p {
 /* Image Quadrant */
 .image-quadrant {
     flex: 1;
-    min-height: 300px;
+    min-height: 400px;
+    width: 100%;
 }
 
 #image-display {
@@ -557,21 +570,20 @@ header p {
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-    .container {
+    .top-row {
         grid-template-columns: 1fr;
-        height: auto;
+    }
+    
+    .map-quadrant,
+    .weather-quadrant {
+        height: 400px;
     }
     
     .quadrant {
-        min-height: 400px;
+        min-height: 350px;
     }
     
     header h1 {
         font-size: 2rem;
-    }
-    
-    .left-column,
-    .right-column {
-        gap: 1rem;
     }
 }
