@@ -22,10 +22,20 @@ function setupEventListeners() {
     document.getElementById('settings-toggle-btn').addEventListener('click', openSettingsModal);
     document.getElementById('close-settings').addEventListener('click', closeSettingsModal);
     
-    // Close modal when clicking outside
+    // Close settings modal when clicking outside
     document.getElementById('settings-modal').addEventListener('click', (e) => {
         if (e.target.id === 'settings-modal') {
             closeSettingsModal();
+        }
+    });
+    
+    // Image modal listeners
+    document.getElementById('close-image-modal').addEventListener('click', closeImageModal);
+    
+    // Close image modal when clicking outside
+    document.getElementById('image-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'image-modal') {
+            closeImageModal();
         }
     });
 }

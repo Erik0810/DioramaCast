@@ -111,9 +111,6 @@
                     </div>
                     <div id="image-content" style="display: none;">
                         <img id="generated-image" src="" alt="Generated diorama" />
-                        <div class="image-info">
-                            <p id="image-prompt"></p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -163,6 +160,16 @@
                     </select>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Image Popup Modal -->
+    <div id="image-modal" class="image-modal" role="dialog" aria-modal="true" aria-label="Image viewer">
+        <button id="close-image-modal" class="close-image-modal-button" aria-label="Close modal">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="image-modal-content">
+            <img id="modal-image" src="" alt="Diorama full view" />
         </div>
     </div>
 
