@@ -164,3 +164,60 @@ def test_environment_variables():
     
     print(f"Environment check: Weather API {'configured' if weather_key else 'not set'}")
     print(f"Environment check: Image API {'configured' if image_key else 'not set'}")
+
+
+def test_gemini_api_key_handling():
+    """Test that the app handles Gemini API key correctly"""
+    from app import app as flask_app
+    
+    with flask_app.test_client() as client:
+        # Save original environment variable
+        original_key = os.environ.get('GEMINI_API_KEY')
+        
+        # Test without API key - should return placeholder
+        os.environ.pop('GEMINI_API_KEY', None)
+        
+        # Need to reload the app module to pick up the environment change
+        import importlib
+        import app as app_module
+        importlib.reload(app_module)
+        
+        with app_module.app.test_client() as test_client:
+            payload = {
+                'location': 'Test City',
+                'weather': 'sunny',
+                'temperature': 25,
+                'settings': {}
+            }
+            
+            response = test_client.post(
+                '/api/generate-image',
+                data=json.dumps(payload),
+                content_type='application/json'
+            )
+            
+            assert response.status_code == 200
+            data = json.loads(response.data)
+            
+            # Should return a placeholder when no API key is configured
+            assert 'image_url' in data
+            assert 'prompt' in data
+            assert 'message' in data or 'placeholder' in data.get('image_url', '').lower()
+        
+        # Restore original environment variable
+        if original_key:
+            os.environ['GEMINI_API_KEY'] = original_key
+        
+        # Reload app module again to restore state
+        importlib.reload(app_module)
+
+
+def test_gemini_api_configuration():
+    """Test that app.py correctly reads GEMINI_API_KEY environment variable"""
+    from app import GEMINI_API_KEY
+    
+    # Verify the app module reads the correct environment variable
+    expected_key = os.environ.get('GEMINI_API_KEY', '')
+    assert GEMINI_API_KEY == expected_key
+    
+    print(f"GEMINI_API_KEY from app.py: {'[SET]' if GEMINI_API_KEY else '[NOT SET]'}")
