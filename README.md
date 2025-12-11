@@ -6,47 +6,44 @@
 
 ## Overview
 
-**DioramaCast** is an enterprise-grade AI abstraction layer that transforms real-world weather data into stunning visual dioramas. This production-ready service orchestrates multiple APIs—OpenWeatherMap for live weather data and Nano Banana Pro for AI image generation—to create custom isometric diorama artwork based on any location's current conditions.
+DioramaCast combines real-time weather data with AI image generation to create isometric diorama artwork. Select any location on the map, and the app fetches current weather conditions from OpenWeatherMap, then uses Nano Banana Pro to generate a custom diorama based on that location's weather.
 
 ## Technology Stack
 
-**Core:** Flask (Python 3.12), HTML5/CSS3/JavaScript, Leaflet.js, Gunicorn
+**Backend:** Flask (Python 3.12), Gunicorn
 
-**APIs:** OpenWeatherMap (weather data), Nano Banana Pro (AI image generation)
+**Frontend:** HTML5, CSS3, JavaScript, Leaflet.js
 
-**Infrastructure:** Heroku cloud hosting, GitHub Actions CI/CD, automatic deployment from main branch
+**APIs:** OpenWeatherMap (weather data), Nano Banana Pro (AI generation)
 
-**Architecture:** Stateless design built to handle thousands of concurrent users with horizontal scaling, graceful degradation, and comprehensive error handling
+**Hosting:** Heroku with automatic deployment from main branch
+
+**CI/CD:** GitHub Actions for automated testing
 
 ## Features
 
 - 🗺️ Interactive world map with location search
-- 🌤️ Real-time weather data integration
+- 🌤️ Real-time weather data
 - 🎨 Customizable art styles, time of day, and seasons
-- 🖼️ AI-generated isometric dioramas on-demand
-- 💎 Responsive, modern UI design
-- ⚡ Production-optimized performance
-- 🔄 Automated CI/CD pipeline
+- 🖼️ AI-generated dioramas on demand
+- 💎 Responsive UI design
+- 🔄 Automated testing and deployment
 
 ## How It Works
 
-**Flow:** User selects location → Weather API fetches conditions → Dynamic prompt constructed → AI generates isometric diorama → Image displayed with embedded weather data
+1. User selects a location on the map
+2. App fetches current weather from OpenWeatherMap API
+3. System builds a prompt with the location, weather, and user preferences
+4. AI generates a 1000x1000px isometric diorama
+5. Image displays with weather info and city name
 
-**Prompt Engineering:** The system constructs detailed prompts incorporating city landmarks, current weather conditions, temperature, and user-selected preferences (art style, time of day, season) to generate consistent, high-quality 1000x1000px isometric dioramas with text overlays.
+## Deployment
 
-## CI/CD & Deployment
+**CI/CD:** GitHub Actions runs tests on every push (environment setup, dependencies, Flask checks, API validation)
 
-**GitHub Actions:** Automated testing on every push—environment setup, dependency installation, Flask integrity checks, API endpoint validation
+**Hosting:** Heroku automatically deploys changes from the main branch with zero downtime
 
-**Heroku Deployment:** Main branch changes automatically deploy to production with zero-downtime rolling updates, Gunicorn WSGI server, and secure environment configuration
-
-## Production Quality
-
-**Scalability:** Stateless architecture with horizontal scaling, Gunicorn worker processes handling thousands of concurrent users
-
-**Reliability:** Comprehensive error handling, graceful API degradation, timeout management, production-grade logging
-
-**Best Practices:** Environment-based configuration (12-factor), automated testing, RESTful API design, clean modular codebase
+**Built for Scale:** Stateless design with horizontal scaling to handle thousands of concurrent users. Includes error handling, API timeouts, and environment-based configuration.
 
 ---
 
