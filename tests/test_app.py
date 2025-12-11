@@ -156,7 +156,7 @@ def test_environment_variables():
     """Test that environment variables can be accessed"""
     # These should be accessible (may be empty strings)
     weather_key = os.environ.get('OPENWEATHER_API_KEY', '')
-    image_key = os.environ.get('NANABANA_API_KEY', '')
+    image_key = os.environ.get('GEMINI_API_KEY', '')
     
     # Just verify we can read them (they might be empty in local dev)
     assert isinstance(weather_key, str)
