@@ -748,6 +748,7 @@ footer p {
         transform: none;
     }
     
+    .image-modal,
     .image-modal-content {
         animation: none;
     }
