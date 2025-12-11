@@ -20,13 +20,13 @@
         <div class="marquee-track">
             {% for i in range(1, 13) %}
             <div class="marquee-item">
-                <img src="{{ url_for('static', filename='images/sample-' ~ i ~ '.jpg') }}" alt="Sample {{ i }}">
+                <img src="{{ url_for('static', filename='images/sample-' ~ i ~ '.png') }}" alt="Sample {{ i }}">
             </div>
             {% endfor %}
             <!-- Duplicate for seamless loop -->
             {% for i in range(1, 13) %}
             <div class="marquee-item">
-                <img src="{{ url_for('static', filename='images/sample-' ~ i ~ '.jpg') }}" alt="Sample {{ i }}">
+                <img src="{{ url_for('static', filename='images/sample-' ~ i ~ '.png') }}" alt="Sample {{ i }}">
             </div>
             {% endfor %}
         </div>
