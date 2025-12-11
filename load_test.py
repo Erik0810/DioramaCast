@@ -154,7 +154,7 @@ class HeavyUser(HttpUser):
     Use sparingly to test rate limiting
     """
     wait_time = between(0.5, 2)
-    weight = 1  # Only 10% of users are heavy users
+    weight = 1  # Weight relative to other users (DioramaCastUser has implicit weight of 10)
     
     @task(10)
     def generate_images_rapidly(self):

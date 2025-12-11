@@ -30,9 +30,11 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 
 # Enable CORS with security settings
+# In production, ALLOWED_ORIGINS should be set to specific domains
+allowed_origins = os.environ.get('ALLOWED_ORIGINS', '*').split(',')
 CORS(app, resources={
     r"/api/*": {
-        "origins": ["*"],  # Configure specific origins in production
+        "origins": allowed_origins,
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"],
         "max_age": 3600
