@@ -24,6 +24,14 @@ def test_main_page_loads(client):
     assert b'Generate Beautiful Dioramas' in response.data
 
 
+def test_api_info_page_loads(client):
+    """Test that the API info page loads successfully"""
+    response = client.get('/api-info')
+    assert response.status_code == 200
+    assert b'API Status' in response.data
+    assert b'The API is in production' in response.data
+
+
 def test_weather_api_endpoint(client):
     """Test weather API endpoint structure"""
     response = client.get('/api/weather?lat=40.7128&lon=-74.0060')

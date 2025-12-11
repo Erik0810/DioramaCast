@@ -19,6 +19,11 @@ def index():
     """Render the main landing page"""
     return render_template('index.html')
 
+@app.route('/api-info')
+def api_info():
+    """Render the API information page"""
+    return render_template('api.html')
+
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
     """Get weather data for a location"""
