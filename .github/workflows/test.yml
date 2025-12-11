@@ -16,7 +16,7 @@ jobs:
     
     env:
       OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-      NANABANA_API_KEY: ${{ secrets.NANABANA_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       FLASK_DEBUG: False
     
     steps:
@@ -66,11 +66,11 @@ jobs:
         import os
         
         weather_key = os.environ.get('OPENWEATHER_API_KEY', '')
-        image_key = os.environ.get('NANABANA_API_KEY', '')
+        image_key = os.environ.get('GEMINI_API_KEY', '')
         
         print("Environment Variables Status:")
         print(f"✅ OPENWEATHER_API_KEY: {'configured' if weather_key else 'not set'}")
-        print(f"✅ NANABANA_API_KEY: {'configured' if image_key else 'not set'}")
+        print(f"✅ GEMINI_API_KEY: {'configured' if image_key else 'not set'}")
         print(f"✅ FLASK_DEBUG: {os.environ.get('FLASK_DEBUG', 'not set')}")
         
         if weather_key:
