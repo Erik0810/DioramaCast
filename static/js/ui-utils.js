@@ -13,6 +13,20 @@ function closeSettingsModal() {
     modal.classList.remove('show');
 }
 
+// Open image modal
+function openImageModal(imageSrc) {
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    modalImage.src = imageSrc;
+    modal.classList.add('show');
+}
+
+// Close image modal
+function closeImageModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.remove('show');
+}
+
 // Show status message
 function showStatus(message, type) {
     const statusEl = document.getElementById('generation-status');

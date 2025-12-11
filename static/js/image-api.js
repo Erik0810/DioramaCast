@@ -70,21 +70,8 @@ function displayGeneratedImage(data) {
     const imgElement = document.getElementById('generated-image');
     imgElement.src = data.image_url;
     
-    const promptElement = document.getElementById('image-prompt');
-    promptElement.textContent = `Prompt: ${data.prompt}`;
-    
-    if (data.message) {
-        const messageP = document.createElement('p');
-        messageP.textContent = data.message;
-        messageP.style.marginTop = '0.5rem';
-        messageP.style.fontStyle = 'italic';
-        messageP.style.color = 'var(--accent-blue)';
-        
-        const imageInfo = document.querySelector('.image-info');
-        const existingMessage = imageInfo.querySelector('p:last-child');
-        if (existingMessage && existingMessage !== promptElement) {
-            existingMessage.remove();
-        }
-        imageInfo.appendChild(messageP);
-    }
+    // Add click handler to open image in modal
+    imgElement.onclick = function() {
+        openImageModal(data.image_url);
+    };
 }
