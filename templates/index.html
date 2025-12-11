@@ -179,7 +179,9 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script>
         // Set current year dynamically
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
     </script>
 </body>
 </html>
