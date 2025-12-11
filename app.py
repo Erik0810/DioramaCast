@@ -102,10 +102,10 @@ def generate_image():
             model='gemini-2.5-flash-image',
             contents=prompt,
             config=types.GenerateContentConfig(
-                response_modalities=["IMAGE"], # Explicitly ask for image output
-                image_generation_config=types.ImageGenerationConfig(
-                    aspect_ratio="1:1",
-                    number_of_images=1
+                response_modalities=["IMAGE"],
+                candidate_count=1,  # Use this instead of number_of_images
+                image_config=types.ImageConfig(  # Correct class name
+                    aspect_ratio="1:1"
                 )
             )
         )
