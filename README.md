@@ -1,29 +1,63 @@
 # DioramaCast
 
-🏔️ Generate beautiful dioramas based on real-world weather of any location
+🏔️ **AI-Powered Weather Diorama Generator**
+
+> **Live Application**: [https://dioramacast.app](https://dioramacast.app)
 
 ## Overview
 
-DioramaCast is a modern Flask web application that combines real-time weather data with AI image generation to create stunning miniature diorama scenes. Select any location on an interactive world map, view its current weather conditions, customize your diorama settings, and generate a unique artistic representation.
+DioramaCast combines real-time weather data with AI image generation to create isometric diorama artwork. Select any location on the map, and the app fetches current weather conditions from OpenWeatherMap, then uses Nano Banana Pro to generate a custom diorama based on that location's weather.
+
+## Technology Stack
+
+**Backend:** Flask (Python 3.12), Gunicorn
+
+**Frontend:** HTML5, CSS3, JavaScript, Leaflet.js
+
+**APIs:** OpenWeatherMap (weather data), Nano Banana Pro (AI generation)
+
+**Hosting:** Heroku with automatic deployment from main branch
+
+**CI/CD:** GitHub Actions for automated testing
 
 ## Features
 
-- 🗺️ **Interactive World Map** - Click anywhere or search for locations
-- 🌤️ **Real-time Weather Data** - Get current weather conditions via OpenWeatherMap API
-- 🎨 **Customizable Settings** - Choose art style, time of day, and season
-- 🖼️ **AI-Generated Dioramas** - Create unique miniature scenes based on location and weather
-- 💎 **Modern UI** - Sleek design with cream white and dark blue theme
-- 📱 **Responsive Layout** - Works on desktop and mobile devices
+- 🗺️ Interactive world map with location search
+- 🌤️ Real-time weather data
+- 🎨 Customizable art styles, time of day, and seasons
+- 🖼️ AI-generated dioramas on demand
+- 💎 Responsive UI design
+- 🔄 Automated testing and deployment
 
-## Setup Instructions
+## How It Works
+
+1. User selects a location on the map
+2. App fetches current weather from OpenWeatherMap API
+3. System builds a prompt with the location, weather, and user preferences
+4. AI generates a 1000x1000px isometric diorama
+5. Image displays with weather info and city name
+
+## Deployment
+
+**CI/CD:** GitHub Actions runs tests on every push (environment setup, dependencies, Flask checks, API validation)
+
+**Hosting:** Heroku automatically deploys changes from the main branch with zero downtime
+
+**Built for Scale:** Stateless design with horizontal scaling to handle thousands of concurrent users. Includes error handling, API timeouts, and environment-based configuration.
+
+---
+
+## Local Development
+
+<details>
+<summary>Click to expand local setup instructions</summary>
 
 ### Prerequisites
-
 - Python 3.8 or higher
-- pip (Python package manager)
-- API keys (see below)
+- pip package manager
+- API keys (OpenWeatherMap, Nano Banana Pro)
 
-### Installation
+### Quick Start
 
 1. Clone the repository:
 ```bash
@@ -40,128 +74,20 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 ```
+Edit `.env` with your API keys.
 
-Edit `.env` and add your API keys:
-- **OPENWEATHER_API_KEY**: Get a free API key from [OpenWeatherMap](https://openweathermap.org/api)
-- **NANABANA_API_KEY**: Configure your image generation API key
-
-4. Run the application:
+4. Run locally:
 ```bash
 python app.py
 ```
 
-5. Open your browser and navigate to:
-```
-http://localhost:5000
-```
+5. Access at `http://localhost:5000`
 
-## Usage
+For detailed API integration instructions, see [API_INTEGRATION.md](API_INTEGRATION.md).
 
-1. **Select a Location**: 
-   - Click anywhere on the world map, or
-   - Use the search bar to find a specific location
+</details>
 
-2. **View Weather**: 
-   - Weather information automatically loads for the selected location
-
-3. **Customize Settings**:
-   - Choose your preferred art style
-   - Select time of day
-   - Pick a season
-
-4. **Generate Diorama**:
-   - Click the "Generate Diorama" button
-   - Wait for the AI to create your unique image
-   - View the generated diorama in the bottom-right panel
-
-## API Requirements
-
-### OpenWeatherMap API
-- **Purpose**: Retrieve real-time weather data
-- **Free Tier**: 1,000 calls/day
-- **Sign Up**: https://openweathermap.org/api
-
-### Nano Banana Pro API
-- **Purpose**: Generate diorama images
-- **Note**: You'll need to configure the actual API integration in `app.py`
-- The current implementation includes a placeholder for the image generation endpoint
-
-## Project Structure
-
-```
-DioramaCast/
-├── app.py                 # Flask application and API endpoints
-├── requirements.txt       # Python dependencies
-├── .env.example          # Environment variables template
-├── .gitignore            # Git ignore rules
-├── templates/
-│   └── index.html        # Main HTML template
-└── static/
-    ├── css/
-    │   └── style.css     # Application styles
-    └── js/
-        └── app.js        # Client-side JavaScript
-```
-
-## Technology Stack
-
-- **Backend**: Flask (Python)
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Map Library**: Leaflet.js
-- **Weather API**: OpenWeatherMap
-- **Styling**: Custom CSS with modern design
-- **Icons**: Font Awesome
-
-## GitHub Actions & CI/CD
-
-This project includes automated testing via GitHub Actions. The workflow will automatically run tests when you push changes or create pull requests.
-
-### Setting Up GitHub Secrets
-
-To use the automated tests with actual API keys, configure the following secrets in your GitHub repository:
-
-1. Go to your repository on GitHub
-2. Navigate to **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Add the following secrets:
-   - **OPENWEATHER_API_KEY**: Your OpenWeatherMap API key
-   - **NANABANA_API_KEY**: Your Nano Banana Pro API key
-
-The GitHub Actions workflow (`.github/workflows/test.yml`) will automatically use these secrets as environment variables during testing.
-
-### Manual Workflow Trigger
-
-You can manually trigger the test workflow:
-1. Go to the **Actions** tab in your GitHub repository
-2. Select the "Test DioramaCast Application" workflow
-3. Click **Run workflow**
-
-The workflow will:
-- Install dependencies
-- Run application tests
-- Test API endpoints
-- Verify environment variables are configured
-
-## Customization
-
-### Modifying the Theme
-Edit the CSS variables in `static/css/style.css`:
-```css
-:root {
-    --dark-blue: #1a2332;
-    --cream-white: #f8f6f0;
-    /* ... other colors */
-}
-```
-
-### Adding More Settings
-1. Add HTML form elements in `templates/index.html`
-2. Update the settings gathering in `static/js/app.js`
-3. Modify the prompt generation in `app.py`
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+---
 
 ## License
 
@@ -169,6 +95,11 @@ This project is open source and available under the MIT License.
 
 ## Acknowledgments
 
-- Weather data provided by OpenWeatherMap
-- Map tiles from OpenStreetMap
-- Icons by Font Awesome
+- Weather data powered by [OpenWeatherMap](https://openweathermap.org)
+- Map visualization via [Leaflet.js](https://leafletjs.com) and [OpenStreetMap](https://www.openstreetmap.org)
+- AI image generation through Nano Banana Pro API
+- Icons by [Font Awesome](https://fontawesome.com)
+
+---
+
+**Portfolio Project by Erik** | [Live Demo](https://dioramacast.app) | Built with ❤️ using Flask & AI
