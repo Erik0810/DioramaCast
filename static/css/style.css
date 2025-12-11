@@ -747,6 +747,10 @@ footer p {
     #generated-image:hover {
         transform: none;
     }
+    
+    .image-modal-content {
+        animation: none;
+    }
 }
 
 /* Responsive Design */
