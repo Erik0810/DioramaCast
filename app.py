@@ -2,12 +2,17 @@ from flask import Flask, render_template, jsonify, request
 import os
 import requests
 from datetime import datetime
+from google import genai
+from google.genai import types
+from PIL import Image
+from io import BytesIO
+import base64
 
 app = Flask(__name__)
 
 # Configuration
 WEATHER_API_KEY = os.environ.get('OPENWEATHER_API_KEY', '')
-IMAGE_API_KEY = os.environ.get('NANABANA_API_KEY', '')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
 
 @app.route('/')
 def index():
@@ -79,21 +84,42 @@ def generate_image():
         f'Square 1000x1000 dimension'
     )
     
-    # For now, return a placeholder response
-    # You'll need to implement actual Nano Banana Pro API integration
-    if not IMAGE_API_KEY:
+    # Check if Gemini API key is configured
+    if not GEMINI_API_KEY:
         # Return a placeholder image URL for demo
         return jsonify({
             'image_url': 'https://via.placeholder.com/1000x1000.png?text=Configure+API+Key',
             'prompt': prompt,
-            'message': 'Image API key not configured. This is a placeholder.'
+            'message': 'Gemini API key not configured. This is a placeholder.'
         })
     
     try:
-        # TODO: Implement actual Nano Banana Pro API call
-        # This is a placeholder implementation
+        # Initialize Gemini client
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        
+        # Generate image using Gemini Imagen
+        response = client.models.generate_images(
+            model='imagen-3.0-generate-001',
+            prompt=prompt,
+            config=types.GenerateImagesConfig(
+                number_of_images=1,
+            )
+        )
+        
+        # Get the generated image
+        generated_image = response.generated_images[0]
+        
+        # Convert image to base64 for embedding in JSON response
+        img_bytes = generated_image.image._pil_image
+        buffered = BytesIO()
+        img_bytes.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        
+        # Return the image as a data URL
+        image_url = f'data:image/png;base64,{img_str}'
+        
         return jsonify({
-            'image_url': 'https://via.placeholder.com/1000x1000.png?text=Image+Generated',
+            'image_url': image_url,
             'prompt': prompt,
             'message': 'Image generation successful'
         })
