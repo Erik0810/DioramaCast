@@ -110,9 +110,15 @@ def generate_image():
         generated_image = response.generated_images[0]
         
         # Convert image to base64 for embedding in JSON response
-        img_bytes = generated_image.image._pil_image
+        # Access the PIL image - if _pil_image is not available, try alternative methods
+        if hasattr(generated_image.image, '_pil_image'):
+            img_pil = generated_image.image._pil_image
+        else:
+            # Fallback: create PIL image from bytes if available
+            img_pil = Image.open(BytesIO(generated_image.image))
+        
         buffered = BytesIO()
-        img_bytes.save(buffered, format="PNG")
+        img_pil.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode()
         
         # Return the image as a data URL
