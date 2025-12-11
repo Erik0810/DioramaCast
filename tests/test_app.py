@@ -5,15 +5,23 @@ Tests basic functionality and API endpoints
 import pytest
 import json
 import os
-from app import app
+from app import app, cache, limiter
 
 
 @pytest.fixture
 def client():
     """Create a test client for the Flask app"""
+    # Set TESTING mode before creating client
     app.config['TESTING'] = True
+    
+    # Disable limiter for testing by disabling it on the extension
+    limiter.enabled = False
+    
     with app.test_client() as client:
         yield client
+    
+    # Re-enable limiter after tests
+    limiter.enabled = True
 
 
 def test_main_page_loads(client):
@@ -221,3 +229,134 @@ def test_gemini_api_configuration():
     assert GEMINI_API_KEY == expected_key
     
     print(f"GEMINI_API_KEY from app.py: {'[SET]' if GEMINI_API_KEY else '[NOT SET]'}")
+
+
+def test_health_endpoint(client):
+    """Test health check endpoint"""
+    response = client.get('/health')
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    assert 'status' in data
+    assert data['status'] == 'healthy'
+    assert 'timestamp' in data
+
+
+def test_readiness_endpoint(client):
+    """Test readiness check endpoint"""
+    response = client.get('/ready')
+    # Can be 200 or 503 depending on API key configuration
+    assert response.status_code in [200, 503]
+    
+    data = json.loads(response.data)
+    assert 'status' in data
+    assert 'checks' in data
+    assert 'timestamp' in data
+    
+    # Verify checks structure
+    checks = data['checks']
+    assert 'weather_api' in checks
+    assert 'image_api' in checks
+    assert 'cache' in checks
+
+
+def test_metrics_endpoint(client):
+    """Test metrics endpoint"""
+    response = client.get('/metrics')
+    # Can be 200 or 429 (rate limited)
+    assert response.status_code in [200, 429]
+    
+    if response.status_code == 200:
+        data = json.loads(response.data)
+        assert 'cache_type' in data
+        assert 'timestamp' in data
+
+
+def test_security_headers(client):
+    """Test that security headers are present"""
+    response = client.get('/')
+    
+    # Check for security headers
+    assert 'X-Content-Type-Options' in response.headers
+    assert response.headers['X-Content-Type-Options'] == 'nosniff'
+    
+    assert 'X-Frame-Options' in response.headers
+    assert response.headers['X-Frame-Options'] == 'SAMEORIGIN'
+    
+    assert 'X-XSS-Protection' in response.headers
+    
+    assert 'Strict-Transport-Security' in response.headers
+    
+    assert 'Content-Security-Policy' in response.headers
+
+
+def test_cors_headers(client):
+    """Test CORS headers on API endpoints"""
+    response = client.options('/api/weather')
+    
+    # CORS headers should be present
+    assert 'Access-Control-Allow-Origin' in response.headers
+
+
+def test_weather_input_validation(client):
+    """Test input validation for weather endpoint"""
+    # Test with invalid latitude
+    response = client.get('/api/weather?lat=invalid&lon=-74.0060')
+    assert response.status_code == 400
+    
+    # Test with out-of-range coordinates
+    response = client.get('/api/weather?lat=91&lon=-74.0060')
+    assert response.status_code == 400
+    
+    response = client.get('/api/weather?lat=40.7128&lon=181')
+    assert response.status_code == 400
+
+
+def test_image_generation_input_validation(client):
+    """Test input validation for image generation"""
+    # Test with oversized location string
+    payload = {
+        'location': 'x' * 200,  # Too long
+        'weather': 'sunny',
+        'temperature': 25
+    }
+    response = client.post(
+        '/api/generate-image',
+        data=json.dumps(payload),
+        content_type='application/json'
+    )
+    assert response.status_code == 400
+    
+    # Test with invalid temperature
+    payload = {
+        'location': 'Test City',
+        'weather': 'sunny',
+        'temperature': 150  # Out of range
+    }
+    response = client.post(
+        '/api/generate-image',
+        data=json.dumps(payload),
+        content_type='application/json'
+    )
+    assert response.status_code == 400
+
+
+def test_cache_configuration():
+    """Test that cache is properly configured"""
+    assert cache is not None
+    assert cache.config['CACHE_TYPE'] in ['redis', 'simple']
+    assert cache.config['CACHE_KEY_PREFIX'] == 'dioramacast_'
+
+
+def test_rate_limiter_configuration():
+    """Test that rate limiter is properly configured"""
+    assert limiter is not None
+
+
+def test_404_handler(client):
+    """Test 404 error handler"""
+    response = client.get('/nonexistent-endpoint')
+    assert response.status_code == 404
+    
+    data = json.loads(response.data)
+    assert 'error' in data

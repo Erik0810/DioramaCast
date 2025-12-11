@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Redis for caching and rate limiting
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dioramacast
+
+  # DioramaCast application
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_DEBUG=False
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=info
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      # Mount source for development (comment out for production)
+      - ./app.py:/app/app.py
+      - ./templates:/app/templates
+      - ./static:/app/static
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - dioramacast
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  dioramacast:
+    driver: bridge
