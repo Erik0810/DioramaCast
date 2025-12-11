@@ -98,29 +98,41 @@ def generate_image():
         client = genai.Client(api_key=GEMINI_API_KEY)
         
         # Generate image using Gemini Imagen
-        # Note: Using imagen-3.0-generate-001 which is the stable model
         response = client.models.generate_content(
             model='gemini-2.5-flash-image',
-            prompt=prompt,
-            config=types.GenerateImagesConfig(
-                number_of_images=1,
-                aspect_ratio="1:1",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_modalities=["IMAGE"], # Explicitly ask for image output
+                image_generation_config=types.ImageGenerationConfig(
+                    aspect_ratio="1:1",
+                    number_of_images=1
+                )
             )
         )
         
-        # Get the generated image
-        generated_image = response.generated_images[0]
+        # --- CHANGED PROCESSING SECTION ---
+
+        # 1. Locate the image part in the response
+        # The response structure is: candidates -> content -> parts
+        image_part = response.candidates[0].content.parts[0]
         
-        # Convert image to base64 for embedding in JSON response
-        # The image object should have a direct PIL image attribute
-        img_pil = generated_image.image._pil_image
+        # 2. Extract raw bytes and mime type
+        # The image is stored in 'inline_data'
+        if image_part.inline_data:
+            image_bytes = image_part.inline_data.data
+            mime_type = image_part.inline_data.mime_type  # usually "image/jpeg" or "image/png"
         
-        buffered = BytesIO()
-        img_pil.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
+            # 3. Convert directly to base64
+            # No need for BytesIO or PIL here unless you need to edit the image
+            img_str = base64.b64encode(image_bytes).decode('utf-8')
         
-        # Return the image as a data URL
-        image_url = f'data:image/png;base64,{img_str}'
+            # 4. Create the Data URL
+            image_url = f'data:{mime_type};base64,{img_str}'
+        
+        else:
+            # Fallback if no image was generated (e.g. safety block)
+            print("No image generated. Check safety ratings.")
+            image_url = None
         
         return jsonify({
             'image_url': image_url,
