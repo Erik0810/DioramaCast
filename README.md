@@ -1,6 +1,6 @@
 # DioramaCast
 
-🏔️ **AI-Powered Weather Diorama Generator**
+**AI-Powered Weather Diorama Generator**
 
 > **Live Application**: [https://dioramacast.app](https://dioramacast.app)
 
@@ -102,4 +102,7 @@ This project is open source and available under the MIT License.
 
 ---
 
-**Portfolio Project by Erik** | [Live Demo](https://dioramacast.app) | Built with ❤️ using Flask & AI
+## Coming Soon
+
+**Public API** - A RESTful API for developers is currently in development, allowing you to integrate DioramaCast's weather-based diorama generation into your own applications.
+

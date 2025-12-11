@@ -7,6 +7,10 @@ from google.genai import types
 from PIL import Image
 from io import BytesIO
 import base64
+from dotenv import load_dotenv
+
+# Load environment variables from .env file for running locally
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -18,6 +22,11 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
 def index():
     """Render the main landing page"""
     return render_template('index.html')
+
+@app.route('/api-info')
+def api_info():
+    """Render the API information page"""
+    return render_template('api.html')
 
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
