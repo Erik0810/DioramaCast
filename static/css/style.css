@@ -40,7 +40,6 @@ header {
     padding: 2rem 2rem 1.5rem 2rem;
     text-align: center;
     box-shadow: 0 2px 10px var(--shadow-strong);
-    position: relative;
 }
 
 .header-content {

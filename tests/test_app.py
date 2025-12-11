@@ -23,7 +23,6 @@ def test_main_page_loads(client):
     assert b'DioramaCast' in response.data
     assert b'Generate Beautiful Dioramas' in response.data
 
-
 def test_api_info_page_loads(client):
     """Test that the API info page loads successfully"""
     response = client.get('/api-info')
