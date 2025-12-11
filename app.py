@@ -60,7 +60,8 @@ limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["200 per hour", "50 per minute"],
     storage_uri=REDIS_URL if os.environ.get('REDIS_URL') else "memory://",
-    strategy="fixed-window"
+    strategy="fixed-window",
+    enabled=lambda: not app.config.get('TESTING', False)
 )
 
 # Connection pooling for requests
@@ -80,17 +81,22 @@ def health_check():
     """Health check endpoint for load balancers"""
     return jsonify({
         'status': 'healthy',
-        'timestamp': datetime.utcnow().isoformat()
+        'timestamp': datetime.now().isoformat()
     }), 200
 
 @app.route('/ready')
 @limiter.exempt
 def readiness_check():
     """Readiness check endpoint - verifies external dependencies"""
+    try:
+        cache_ready = cache is not None and hasattr(cache, 'cache')
+    except Exception:
+        cache_ready = False
+    
     checks = {
         'weather_api': bool(WEATHER_API_KEY),
         'image_api': bool(GEMINI_API_KEY),
-        'cache': cache.cache is not None
+        'cache': cache_ready
     }
     
     all_ready = all(checks.values())
@@ -99,7 +105,7 @@ def readiness_check():
     return jsonify({
         'status': 'ready' if all_ready else 'not_ready',
         'checks': checks,
-        'timestamp': datetime.utcnow().isoformat()
+        'timestamp': datetime.now().isoformat()
     }), status_code
 
 @app.route('/metrics')
@@ -109,7 +115,7 @@ def metrics():
     return jsonify({
         'cache_type': cache_config['CACHE_TYPE'],
         'redis_configured': bool(os.environ.get('REDIS_URL')),
-        'timestamp': datetime.utcnow().isoformat()
+        'timestamp': datetime.now().isoformat()
     })
 
 # Security headers middleware
@@ -196,7 +202,11 @@ def get_weather():
 @limiter.limit("10 per hour;2 per minute")  # Stricter limits for expensive operations
 def generate_image():
     """Generate image based on location, weather, and settings"""
-    data = request.json
+    try:
+        data = request.get_json()
+    except Exception as e:
+        logger.warning(f"Invalid JSON in image generation request: {str(e)}")
+        return jsonify({'error': 'Invalid JSON data'}), 400
     
     if not data:
         logger.warning("Image generation called with no data")
