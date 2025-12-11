@@ -100,7 +100,7 @@ def generate_image():
         # Generate image using Gemini Imagen
         # Note: Using imagen-3.0-generate-001 which is the stable model
         response = client.models.generate_images(
-            model='imagen-3.0-generate-001',
+            model='imagen-4.0-fast-generate',
             prompt=prompt,
             config=types.GenerateImagesConfig(
                 number_of_images=1,
