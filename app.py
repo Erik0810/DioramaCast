@@ -98,11 +98,13 @@ def generate_image():
         client = genai.Client(api_key=GEMINI_API_KEY)
         
         # Generate image using Gemini Imagen
+        # Note: Using imagen-3.0-generate-001 which is the stable model
         response = client.models.generate_images(
-            model='imagen-4.0-generate-001',
+            model='imagen-3.0-generate-001',
             prompt=prompt,
             config=types.GenerateImagesConfig(
                 number_of_images=1,
+                aspect_ratio="1:1",
             )
         )
         
@@ -110,12 +112,8 @@ def generate_image():
         generated_image = response.generated_images[0]
         
         # Convert image to base64 for embedding in JSON response
-        # Access the PIL image - if _pil_image is not available, try alternative methods
-        if hasattr(generated_image.image, '_pil_image'):
-            img_pil = generated_image.image._pil_image
-        else:
-            # Fallback: create PIL image from bytes if available
-            img_pil = Image.open(BytesIO(generated_image.image))
+        # The image object should have a direct PIL image attribute
+        img_pil = generated_image.image._pil_image
         
         buffered = BytesIO()
         img_pil.save(buffered, format="PNG")
@@ -130,7 +128,13 @@ def generate_image():
             'message': 'Image generation successful'
         })
     except Exception as e:
-        return jsonify({'error': f'Failed to generate image: {str(e)}'}), 500
+        # Log the full error for debugging
+        app.logger.error(f'Gemini API error: {str(e)}')
+        return jsonify({
+            'error': f'Failed to generate image: {str(e)}',
+            'prompt': prompt,
+            'message': 'Check API key configuration and model availability'
+        }), 500
 
 if __name__ == '__main__':
     # Only enable debug mode if explicitly set in environment
