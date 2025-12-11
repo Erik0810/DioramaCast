@@ -106,8 +106,14 @@ def generate_image():
         # Initialize Gemini client
         client = genai.Client(api_key=GEMINI_API_KEY)
         
+        
+        # Util to check available models and their methods
+        #res=client.models.list(config={'page_size': 60})
+        #print(res.page)
+
         # Generate image using Gemini Imagen
-        response = client.models.generate_content(
+        # Cheap and fast model
+        """response = client.models.generate_content(
             model='gemini-2.5-flash-image',
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -117,8 +123,20 @@ def generate_image():
                     aspect_ratio="1:1"
                 )
             )
-        )
+        )"""
         
+        # Expensive model
+        response = client.models.generate_content(
+            model='nano-banana-pro-preview',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_modalities=["IMAGE"],
+                candidate_count=1,  # Use this instead of number_of_images
+                image_config=types.ImageConfig(  # Correct class name
+                    aspect_ratio="1:1"
+                )
+            )
+        )
         # --- CHANGED PROCESSING SECTION ---
 
         # 1. Locate the image part in the response
