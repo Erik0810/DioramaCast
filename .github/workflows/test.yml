@@ -39,6 +39,57 @@ jobs:
         python -m pytest tests/ -v || echo "No tests directory found, running basic smoke test"
         python -c "from app import app; print('✅ Flask app imports successfully')"
     
+    - name: List available Gemini models
+      run: |
+        python << EOF
+        import os
+        from google import genai
+        
+        api_key = os.environ.get('GEMINI_API_KEY', '')
+        
+        if not api_key:
+            print("⚠️ GEMINI_API_KEY not set, skipping model listing")
+        else:
+            try:
+                client = genai.Client(api_key=api_key)
+                print("📋 Available Gemini Models:")
+                print("=" * 60)
+                
+                # List all models
+                models = client.models.list()
+                
+                # Filter and display image generation models
+                image_models = []
+                text_models = []
+                
+                for model in models:
+                    model_name = model.name
+                    # Check if it's an image generation model
+                    if 'imagen' in model_name.lower() or 'image' in model_name.lower():
+                        image_models.append(model_name)
+                    else:
+                        text_models.append(model_name)
+                
+                if image_models:
+                    print("\n🖼️  IMAGE GENERATION MODELS:")
+                    for model in image_models:
+                        print(f"  - {model}")
+                else:
+                    print("\n⚠️  No specific image generation models found")
+                
+                if text_models:
+                    print("\n💬 TEXT GENERATION MODELS (first 10):")
+                    for model in text_models[:10]:
+                        print(f"  - {model}")
+                
+                print("\n" + "=" * 60)
+                print(f"Total models available: {len(list(models))}")
+                
+            except Exception as e:
+                print(f"❌ Error listing models: {e}")
+                print(f"Error type: {type(e).__name__}")
+        EOF
+    
     - name: Test API endpoints
       run: |
         python app.py &
@@ -50,7 +101,7 @@ jobs:
         echo "✅ Main page loads"
         
         # Test weather API (will return error if no API key, but should not crash)
-        curl -f http://localhost:5000/api/weather?lat=40.7128&lon=-74.0060 || echo "⚠️ Weather API needs key"
+        curl -f "http://localhost:5000/api/weather?lat=40.7128&lon=-74.0060" || echo "⚠️ Weather API needs key"
         
         # Test image generation API
         curl -f -X POST http://localhost:5000/api/generate-image \
