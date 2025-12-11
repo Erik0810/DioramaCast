@@ -32,6 +32,8 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overscroll-behavior: none;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -105,7 +107,7 @@ footer {
     padding: 1.5rem 2rem;
     text-align: center;
     box-shadow: 0 -2px 10px var(--shadow-strong);
-    margin-top: 2rem;
+    margin-top: auto;
 }
 
 footer p {
@@ -231,6 +233,8 @@ footer p {
     padding: 2rem;
     max-width: 1800px;
     margin: 0 auto;
+    width: 90%;
+    flex: 1;
 }
 
 /* Top Row: Two equal columns side-by-side */

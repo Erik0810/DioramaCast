@@ -7,6 +7,10 @@ from google.genai import types
 from PIL import Image
 from io import BytesIO
 import base64
+from dotenv import load_dotenv
+
+# Load environment variables from .env file for running locally
+load_dotenv()
 
 app = Flask(__name__)
 
