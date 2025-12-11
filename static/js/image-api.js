@@ -62,6 +62,12 @@ async function generateDiorama(selectedLocation, weatherData) {
     }
 }
 
+// Click handler function for image modal
+function handleImageClick() {
+    const imgElement = document.getElementById('generated-image');
+    openImageModal(imgElement.src);
+}
+
 // Display generated image
 function displayGeneratedImage(data) {
     document.querySelector('#image-display .placeholder-text').style.display = 'none';
@@ -71,11 +77,8 @@ function displayGeneratedImage(data) {
     imgElement.src = data.image_url;
     
     // Remove existing click handler to avoid duplicates
-    imgElement.replaceWith(imgElement.cloneNode(true));
-    const newImgElement = document.getElementById('generated-image');
+    imgElement.removeEventListener('click', handleImageClick);
     
     // Add click handler to open image in modal
-    newImgElement.addEventListener('click', function() {
-        openImageModal(data.image_url);
-    });
+    imgElement.addEventListener('click', handleImageClick);
 }
