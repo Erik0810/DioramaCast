@@ -56,6 +56,23 @@ header p {
     letter-spacing: 0.01em;
 }
 
+footer {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+    color: var(--cream-light);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 -2px 10px var(--shadow-strong);
+    margin-top: 2rem;
+}
+
+footer p {
+    font-size: 1rem;
+    opacity: 0.85;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+
 /* Infinite Marquee Slider */
 .marquee-container {
     width: 100%;
