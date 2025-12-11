@@ -99,7 +99,7 @@ def generate_image():
         
         # Generate image using Gemini Imagen
         response = client.models.generate_images(
-            model='imagen-3.0-generate-001',
+            model='imagen-4.0-generate-001',
             prompt=prompt,
             config=types.GenerateImagesConfig(
                 number_of_images=1,
