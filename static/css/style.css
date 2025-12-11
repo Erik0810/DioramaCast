@@ -743,6 +743,12 @@ footer p {
     box-shadow: 0 12px 32px var(--shadow-strong);
 }
 
+@media (prefers-reduced-motion: reduce) {
+    #generated-image:hover {
+        transform: none;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .top-row {

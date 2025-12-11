@@ -70,8 +70,12 @@ function displayGeneratedImage(data) {
     const imgElement = document.getElementById('generated-image');
     imgElement.src = data.image_url;
     
+    // Remove existing click handler to avoid duplicates
+    imgElement.replaceWith(imgElement.cloneNode(true));
+    const newImgElement = document.getElementById('generated-image');
+    
     // Add click handler to open image in modal
-    imgElement.onclick = function() {
+    newImgElement.addEventListener('click', function() {
         openImageModal(data.image_url);
-    };
+    });
 }
