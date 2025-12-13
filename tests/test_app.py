@@ -82,3 +82,65 @@ def test_gemini_api_configuration():
     assert GEMINI_API_KEY == expected_key
     
     print(f"GEMINI_API_KEY from app.py: {'[SET]' if GEMINI_API_KEY else '[NOT SET]'}")
+
+def test_image_generation_with_settings(client):
+    """Test that image generation correctly incorporates settings into the prompt"""
+    request_data = {
+        'location': 'Paris',
+        'weather': 'clear sky',
+        'temperature': 22,
+        'settings': {
+            'style': 'cinematic',
+            'time_of_day': 'sunset',
+            'season': 'autumn'
+        }
+    }
+    
+    response = client.post(
+        '/api/generate-image',
+        data=json.dumps(request_data),
+        content_type='application/json'
+    )
+    
+    # Should return 200 even if API key is not configured (returns placeholder)
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    
+    # Should have a prompt in the response
+    assert 'prompt' in data
+    prompt = data['prompt']
+    
+    # Verify settings are incorporated into prompt
+    assert 'cinematic' in prompt.lower() or 'dramatic' in prompt.lower()
+    assert 'sunset' in prompt.lower() or 'orange' in prompt.lower()
+    assert 'autumn' in prompt.lower() or 'orange and red foliage' in prompt.lower()
+    
+    print(f"Generated prompt includes settings: style=cinematic, time=sunset, season=autumn")
+
+def test_image_generation_without_settings(client):
+    """Test that image generation works without optional settings"""
+    request_data = {
+        'location': 'Tokyo',
+        'weather': 'rainy',
+        'temperature': 18,
+        'settings': {}
+    }
+    
+    response = client.post(
+        '/api/generate-image',
+        data=json.dumps(request_data),
+        content_type='application/json'
+    )
+    
+    assert response.status_code == 200
+    
+    data = json.loads(response.data)
+    assert 'prompt' in data
+    
+    # Should have default style when no settings provided
+    prompt = data['prompt']
+    assert 'Tokyo' in prompt
+    assert 'rainy' in prompt.lower()
+    
+    print(f"Generated prompt works without custom settings")
