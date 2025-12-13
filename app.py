@@ -79,11 +79,51 @@ def generate_image():
     # Get current date
     current_date = datetime.now().strftime("%B %d, %Y")
     
-    # Create prompt for image generation using the specified format
+    # Extract settings
+    style = settings.get('style', '')
+    time_of_day = settings.get('time_of_day', '')
+    season = settings.get('season', '')
+    
+    # Build base prompt
     prompt = (
         f'Present a clear, 45° top-down isometric miniature 3D cartoon scene of {location}, '
         f'featuring its most iconic landmarks and architectural elements. '
-        f'Use soft, refined textures with realistic PBR materials and gentle, lifelike lighting and shadows. '
+    )
+    
+    # Add style modifier if specified
+    if style:
+        style_descriptions = {
+            'realistic': 'Use highly realistic textures with photorealistic PBR materials and accurate lighting. ',
+            'artistic': 'Use artistic, stylized textures with vibrant colors and creative interpretation. ',
+            'miniature': 'Use miniature model aesthetic with exaggerated tiny details and tilt-shift effect. ',
+            'cinematic': 'Use cinematic lighting with dramatic shadows and epic composition. '
+        }
+        prompt += style_descriptions.get(style, '')
+    else:
+        prompt += 'Use soft, refined textures with realistic PBR materials and gentle, lifelike lighting and shadows. '
+    
+    # Add time of day if specified
+    if time_of_day:
+        time_descriptions = {
+            'sunrise': 'Depict the scene during sunrise with warm golden light and long shadows. ',
+            'midday': 'Depict the scene during midday with bright, direct overhead lighting. ',
+            'sunset': 'Depict the scene during sunset with orange and pink hues and soft warm light. ',
+            'night': 'Depict the scene at night with artificial lights, street lamps, and building illumination. '
+        }
+        prompt += time_descriptions.get(time_of_day, '')
+    
+    # Add season if specified
+    if season:
+        season_descriptions = {
+            'spring': 'Show spring season with blooming flowers, fresh green vegetation, and mild weather. ',
+            'summer': 'Show summer season with lush greenery, bright sunshine, and vibrant atmosphere. ',
+            'autumn': 'Show autumn season with orange and red foliage, fallen leaves, and warm earth tones. ',
+            'winter': 'Show winter season with snow coverage, bare trees, and cold atmospheric conditions. '
+        }
+        prompt += season_descriptions.get(season, '')
+    
+    # Continue with weather and layout
+    prompt += (
         f'Integrate {weather} weather directly into the city environment to create an immersive atmospheric mood. '
         f'Use a clean, minimalistic composition with a soft, solid-colored background. '
         f'At the top-center, place the title "{location}" in large bold text, '
@@ -112,22 +152,9 @@ def generate_image():
         #print(res.page)
 
         # Generate image using Gemini Imagen
-        # Cheap and fast model
-        """response = client.models.generate_content(
-            model='gemini-2.5-flash-image',
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_modalities=["IMAGE"],
-                candidate_count=1,  # Use this instead of number_of_images
-                image_config=types.ImageConfig(  # Correct class name
-                    aspect_ratio="1:1"
-                )
-            )
-        )"""
-        
-        # Expensive model
+        # Using gemini-2.5-flash for fast and efficient image generation
         response = client.models.generate_content(
-            model='nano-banana-pro-preview',
+            model='gemini-2.5-flash',
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_modalities=["IMAGE"],
